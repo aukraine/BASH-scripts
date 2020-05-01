@@ -38,7 +38,7 @@ if [[ $ON_MASTER = "On branch master" ]]; then
 
   echo "\x1b[36m Pull origin master \x1b[0m"
   echo "\x1b[36m Pull origin master \x1b[0m" >> $LOG_FILE
-  GIT_LOG=$(git pull origin master | tail -1) 2>&1
+  GIT_LOG=$(git pull origin master | tail -2) 2>&1
   echo "\x1b[30;42m $GIT_LOG \x1b[0m \n"
   echo "\x1b[30;42m $GIT_LOG \x1b[0m \n" >> $LOG_FILE
 
@@ -70,7 +70,7 @@ if [[ $REFRESH_TESTS = "y" || $REFRESH_TESTS = "Y" ]]; then
 
     echo "\x1b[36m Pull origin master \x1b[0m" &&
     echo "\x1b[36m Pull origin master \x1b[0m" >> $LOG_FILE &&
-    GIT_LOG=$(git pull origin master | tail -1) 2>&1 &&
+    GIT_LOG=$(git pull origin master | tail -2) 2>&1 &&
     echo "\x1b[30;42m $GIT_LOG \x1b[0m \n" &&
     echo "\x1b[30;42m $GIT_LOG \x1b[0m \n" >> $LOG_FILE &&
 

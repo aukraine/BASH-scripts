@@ -2,6 +2,7 @@
 #~~~~~~~~~~~~~~~~~~~~~~~~~~ Aliases ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+alias bi="bundle install"
 alias bx="bundle exec"
 alias bxr="bundle exec rspec"
 alias bxrc="bundle exec rails c"
