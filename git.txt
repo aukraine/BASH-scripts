@@ -1,0 +1,31 @@
+git init
+git status
+git remote add origin https://
+git clone https://
+git add .
+git commit -m "commit"
+git push origin master
+git pull origin master
+git checkout -b <name-branch>
+git commit -m "fix merge conflicts" -a
+
+git commit -a --amend       - добавить к последнему комиту изменения
+git reset --soft HEAD^        - отменить последний комит но не код
+git reset HEAD~1               - отменить последний комит
+git reset --hard HEAD~2    - удалить последних 2 комита
+git push origin <branch_name> -f            - удалить комит з ремоута 
+
+git brach -d <branch_name>                     - удалить бранч локально
+git push origin --delete <branch_name>  - удалить бранч на ремоут
+
+git config --global user.name "Andrii Ukrainets"
+git config --global user.email "andre.ukrainets@gmail.com"
+
+
+GitHub Actions:
+
+- name: Git clone my repo
+  uses: actions/checkout@v1
+
+Status of Last Deployment:<br>
+<img src="https://github.com/<github_account>/<github_repo>/workflows/<name_on_actions_yaml_file>/badge.svg?branch=master"><br>

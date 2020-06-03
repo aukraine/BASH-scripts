@@ -1,0 +1,100 @@
+
+[32m ----------------------------------------------------------- GIT ----------------------------------------------------------------- [0m
+[33m ----------------------------------------------------------- TELAPP -------------------------------------------------------------- [0m
+[36m Pull origin master [0m
+[30;42m  create mode 100644 tas/app/graphql/graph_api/mutations/provider_schedule_event/update_provider_schedule_event_mutation.rb
+ create mode 100644 tas/spec/graphql/graph_api/mutations/provider_schedule_event/delete_provider_schedule_event_mutation_spec.rb
+ create mode 100644 tas/spec/graphql/graph_api/mutations/provider_schedule_event/update_provider_schedule_event_mutation_spec.rb [0m 
+
+[33m ----------------------------------------------------------- CUCUMBERS ----------------------------------------------------------- [0m
+[36m Pull origin master [0m
+[30;42m  .../step_definitions/provider/provider_steps.rb    | 32 ++++++++++++++++++++++
+ 6 files changed, 101 insertions(+)
+ create mode 100644 features/consultation/bh/bh_rav_with_attachments.feature [0m 
+
+Bundle complete! 27 Gemfile dependencies, 74 gems now installed.
+Use `bundle info [gemname]` to see where a bundled gem is installed.
+[30;42m CUCUMBERS bundle install COMPLETED [0m 
+
+[32m ----------------------------------------------------------- DB ------------------------------------------------------------------ [0m
+Bundle complete! 136 Gemfile dependencies, 276 gems now installed.
+Use `bundle info [gemname]` to see where a bundled gem is installed.
+[30;42m TAS bundle install COMPLETED [0m 
+
+[31m rake db:drop [0m
+**************************************************
+⛔️ WARNING: Sidekiq testing API enabled, but this is not the test environment.  Your jobs will not go to Redis.
+************************************************** 
+
+[31m rake parallel:drop  [0m
+**************************************************
+⛔️ WARNING: Sidekiq testing API enabled, but this is not the test environment.  Your jobs will not go to Redis.
+************************************************** 
+
+[31m rake db:create  [0m
+**************************************************
+⛔️ WARNING: Sidekiq testing API enabled, but this is not the test environment.  Your jobs will not go to Redis.
+************************************************** 
+
+[31m rake db:reset:complete  [0m
+Inserting settings for Member incremental run
+Inserting settings for Provider clean run
+Inserting settings for Provider incremental run 
+
+[31m rake td:rspec_setup  [0m
+Client: callcenter done.
+Resetting ticket registry
+All complete! You are now ready to run specs! 
+
+[31m rake parallel:setup  [0m
+Syncing Client: callcenter
+Results for callcenter: {:added=>["098e675675198d10a3cc1f429635d807"], :not_modified=>[], :failed=>[], :errors=>{}, :committed=>true}
+Client: callcenter done. 
+
+[30;42m DB reset COMPLETED [0m 
+
+[32m ----------------------------------------------------------- INSTALL ------------------------------------------------------------- [0m
+[33m ----------------------------------------------------------- admin ---------------------------------------------------------------- [0m
+Bundle complete! 89 Gemfile dependencies, 198 gems now installed.
+Use `bundle info [gemname]` to see where a bundled gem is installed.
+[32m bundle install COMPLETED [0m 
+
+Done in 4.71s.
+[32m yarn install COMPLETED [0m 
+
+Done in 15.89s.
+[32m yarn build COMPLETED [0m 
+
+[33m ----------------------------------------------------------- member ---------------------------------------------------------------- [0m
+Bundle complete! 88 Gemfile dependencies, 211 gems now installed.
+Use `bundle info [gemname]` to see where a bundled gem is installed.
+[32m bundle install COMPLETED [0m 
+
+Done in 7.31s.
+[32m yarn install COMPLETED [0m 
+
+Done in 45.97s.
+[32m yarn build COMPLETED [0m 
+
+[33m ----------------------------------------------------------- provider ---------------------------------------------------------------- [0m
+Bundle complete! 78 Gemfile dependencies, 192 gems now installed.
+Use `bundle info [gemname]` to see where a bundled gem is installed.
+[32m bundle install COMPLETED [0m 
+
+Done in 3.89s.
+[32m yarn install COMPLETED [0m 
+
+Done in 16.66s.
+[32m yarn build COMPLETED [0m 
+
+[33m ----------------------------------------------------------- callcenter ---------------------------------------------------------------- [0m
+Bundle complete! 77 Gemfile dependencies, 185 gems now installed.
+Use `bundle info [gemname]` to see where a bundled gem is installed.
+[32m bundle install COMPLETED [0m 
+
+Done in 11.71s.
+[32m yarn install COMPLETED [0m 
+
+Done in 9.95s.
+[32m yarn build COMPLETED [0m 
+

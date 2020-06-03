@@ -1,0 +1,29 @@
+#!/bin/bash
+
+./myscript.sh  Vasya  Petya  Kolya
+$0 при этом равен  ./myscript.sh
+$1 при этом равен Vasya
+$2 при этом равен Petya
+$3 при этом равен Kolya
+
+myOS=`uname -u`   – запускает uname -u и сохраняет  результат в переменную myOS
+
+Сохранить ввод пользователя в переменную name:
+read -p “Please enter your name: “ name
+
+sum=$((elem1+elem2))  – 
+
+if [ "$1 == "Vasya" ]; then
+                  echo "Privet $1"
+elif [ "$1 == "Tolik" ]; then
+                  echo "Hello $1"
+else echo "Zdarova $1"
+fi
+
+$x=2
+case $x in
+              1) echo "This is one";;
+         [2-9]) echo "Two - Nine";;
+    "Petya") echo "Hello $x";;
+              *) echo "Parameter unknown";;
+esac
