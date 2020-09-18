@@ -1,0 +1,216 @@
+JOB Standarts Exemples
+Ruby on Rails
+main GOAL - MIDDLE level
+
+
+1.1 A
+MODELS AND PROCESSES IMPLEMENTATION
+https://confluence.softserveinc.com/pages/viewpage.action?pageId=391080301 
+
+1.2 A
+PROCESS MANAGEMENT AND DATA COLLECTION
+https://confluence.softserveinc.com/pages/viewpage.action?pageId=394775430
+
+
+
+2.1 A
+REQUIREMENTS ELICITATION AND ANALYSIS
+https://confluence.softserveinc.com/pages/viewpage.action?pageId=374158604 
+
+2.2 F
+REQUIREMENTS SPECIFICATION AND VALIDATION
+requirement - HIPPA
+
+2.3 A
+STAKEHOLDERS COLLABORATION
+Meetings and Retrospectives in Outlook
+
+
+
+3.1 F
+ARCHITECTURAL PATTERNS AND STYLES
+https://confluence.softserveinc.com/display/DARAM/%5BOutdated%5D+DB+Structure
+https://teladocpa-my.sharepoint.com/personal/ghochron_teladoc_com/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Fghochron%5Fteladoc%5Fcom%2FDocuments%2FDesktop%2FGoto%20Meeting%20Recordings%2F2019%2D09%2D11%2010%2E08%20Meet%20Now%2Emp4&parent=%2Fpersonal%2Fghochron%5Fteladoc%5Fcom%2FDocuments%2FDesktop%2FGoto%20Meeting%20Recordings&originalPath=aHR0cHM6Ly90ZWxhZG9jcGEtbXkuc2hhcmVwb2ludC5jb20vOnY6L2cvcGVyc29uYWwvZ2hvY2hyb25fdGVsYWRvY19jb20vRVR2ZDNseVFKYVJBdjUzSWt5M1cwbDBCdDFIeW0xdm5WOW9EeWIwNlg4YzJ2Zz9ydGltZT1VQjRLeTdBaDJFZw 
+
+3.2 AF
+COMPONENTS AND MODULES DESIGN
+...
+
+3.4 A
+DESIGN QUALITY ANALYSIS AND EVALUATION
+...
+
+3.5 A
+ENABLING TECHNICS
+Skype
+
+3.6 AF
+RESTRUCTURING AND REFACTORING
+https://github.com/blabbings/iris/pull/967#discussion_r361430924
+https://github.com/blabbings/iris/pull/975
+https://github.com/blabbings/iris/pull/1025
+
+
+
+4.1 AF
+CODE QUALITY MEASUREMENTS
+Rubocop, Pylint, Black
+https://plugins.jetbrains.com/plugin/10563-black-pycharm
+
+4.3 P 							key
+CONFIGURATION MANAGEMENT
+iTerm, Docker, Jenkins, Pre-request Script, Scripts for drop DB
+https://confluence.softserveinc.com/display/DARAM/Script+for+clean+DB
+
+4.4 AF
+CONSTRUCTION PLANNING
+Meetings, Running cucumbers
+
+4.6 A
+CONTINUOUS INTEGRATION
+https://github.com/NickUkraine24/restaurant_rails_app/commits/master
+
+4.7 P 							key
+CROSS-TEAM COLLABORATION
+One-to-one meetings
+
+4.8 A
+ENVIRONMENT AND TOOLS
+https://github.com/blabbings/iris/pull/374/files#diff-d5a5a5c8e47b0f527e61a21c23404743R54
+
+4.9 A 							key
+ESTIMATION
+PlanitPoker
+https://confluence.softserveinc.com/display/DARAM/Iteration+13+Backlog
+
+4.10 A 							key
+REVIEWS AND INSPECTIONS
+Aprooved PRs
+https://github.com/blabbings/iris/pull/874#discussion_r351323239
+https://github.com/blabbings/iris/pull/930#discussion_r356548122
+
+4.11 A
+Standards and conventions
+Black
+https://github.com/Teladoc/telapp/pull/8239/files
+https://github.com/Teladoc/telapp/pull/8554/files#diff-e1953af9424ca747c574a8bcb1f098f8R100 
+https://github.com/Teladoc/telapp/pull/8666/commits/e3d53b81499e3d495e4b4072c55d8e7229b5825b
+
+
+
+5.1 A
+API DESIGN AND USE
+Postman collection https://www.getpostman.com/collections/ce0ecd3627fdc7da3ffe
+https://confluence.softserveinc.com/display/DARAM/16.+Master+Ontology
+
+5.2 A
+DATABASE DESIGN AND DATA MANAGEMENT
+Compass
+https://github.com/blabbings/iris/pull/1008/files#diff-127237015da5d9a8d1e14ef6a0ef9e84R10
+
+5.3 A 							key
+DESIGN AND DESIGN PATTERNS
+https://github.com/Teladoc/telapp/pull/7479/commits/928a7be93f4b06e4000601977a57c934ccdeea9c
+https://github.com/blabbings/iris/pull/1008/files#diff-af44385d1b0e7bd335c106fb43bbeb94R2
+
+5.4 A							key
+FRAMEWORK USAGE AND EXTENSIONS
+MVC
+https://github.com/Teladoc/telapp/pull/8304/commits/5ee4e5c84b00407d809e3dd4948731644eadb1f2 
+https://github.com/Teladoc/telapp/pull/8304/commits/d2e42b180f8141ffdb09f75a1234646163b554ce
+https://github.com/Teladoc/telapp/pull/8304/commits/7d22661321007d2bb73f8e316647765178d46275
+https://github.com/NickUkraine24/restaurant_rails_app/pull/8
+
+5.5 P							key
+PRIMARY LANGUAGE AND CODING
+https://github.com/Teladoc/telapp/pull/8666/commits/cb310c3ddc3b5d72d02d240b6282535bae8c75e4
+https://github.com/Teladoc/telapp/pull/8273/commits/9f19f5e73f74fb2ac480065f5ccf166602282f71
+https://github.com/blabbings/iris/pull/966
+https://github.com/blabbings/iris/pull/893
+https://github.com/blabbings/iris/pull/1024
+
+5.6 A
+REFACTORING AND REENGINEERING
+params.require.permit
+https://github.com/Teladoc/telapp/pull/8666/commits/62974f156cbb9913d3215ae4a9a14db65753d576
+...
+https://github.com/blabbings/iris/pull/967#discussion_r361430924
+https://github.com/blabbings/iris/pull/975
+https://github.com/blabbings/iris/pull/1025
+https://github.com/Teladoc/telapp/pull/7479/commits/77262d000c38ea95d9e5b3e87edcdb2ffc696ac1
+
+5.7 P
+SUPPORTIVE LANGUAGE AND CODING
+JS projects, Pre-request Scripts
+https://github.com/NickUkraine24/restaurant_rails_app/pull/8
+
+
+
+6.1 P							key
+DEBUGGING TOOLS AND TECHNIQUES
+byebug, pry, zsh, aliasses, PyCharm
+
+6.2 A
+INTEGRATION TESTING TECHNIQUES AND TOOLS
+Jenkins, Cucumber, Postman
+
+6.3 A							key
+TEST COVERAGE
+https://github.com/Teladoc/telapp/pull/8238/commits/b1fa4637692347b987356fd09d8bd11db3154d3b
+
+6.4 P 							key
+TEST FRAMEWORKS
+Acceptence tests, Cucumbers
+https://github.com/Teladoc/acceptance_tests/pull/2235
+
+6.5 P
+TESTING PRACTICES AND TECHNIQUES
+https://github.com/Teladoc/telapp/pull/8238/commits/b1fa4637692347b987356fd09d8bd11db3154d3b
+https://github.com/NickUkrain.e24/restaurant_rails_app/pull/8/files#diff-85836da4e8ac6b776d46d41877cb62d5R1-R56
+https://github.com/blabbings/iris/pull/743
+
+6.6 P							key
+UNIT TESTING TECHNIQUES AND TOOLS
+https://github.com/Teladoc/telapp/pull/8238/commits/b1fa4637692347b987356fd09d8bd11db3154d3b
+https://github.com/NickUkraine24/restaurant_rails_app/pull/8/files#diff-85836da4e8ac6b776d46d41877cb62d5R1-R56
+https://github.com/blabbings/iris/pull/743
+
+
+
+7.1 
+DEFECT TRACKING AND REPORTING
+Azure DevOps, Jira
+https://teladoc.atlassian.net/secure/RapidBoard.jspa?rapidView=179&projectKey=TECH&view=planning&selectedIssue=TECH-286&issueLimit=100
+...
+https://confluence.softserveinc.com/pages/viewpage.action?pageId=391080301
+https://confluence.softserveinc.com/pages/viewpage.action?pageId=394775430
+
+7.2 AF
+PRACTICES AND TECHNIQUES
+Postman, Spec, Cucumbers
+
+7.4 AF
+QUALITY GOALS AND ATTRIBUTES
+...
+
+
+
+8.1 A
+BEST PRACTICES CATALOG AND STANDARDS
+																						!!!!!!!!!!!!!!!!!!!!!!!!!
+
+8.2 AF							key
+EVALUATION AND INTERVIEW
+One-to-one meetings
+
+8.4 AF
+MENTORING AND COACHING
+...
+
+8.6 AF
+OPEN SOURCE
+...
+
+8.8 AF
+SUPERVISION AND CONSULTING
+...

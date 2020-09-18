@@ -1,0 +1,85 @@
+                       								CORE
+
+
+print    		=>		puts				=>		p
+some_func(arg)  =>		some_func arg
+
+if				=>		unless
+
+x = if ARGV[0]
+  ARGV[0].to_i
+elsif
+  1
+end
+
+return 			=>		_______
+
+:text  - тип даних symbol (like string singleton)
+
+{ :key1 => "value1", :key2 => "value2" } 	- 		hash
+{ :key => "value" }    						=>    	key: "value"
+
+list = []
+list << "new_item"    						- 		додати новий елемент в масив 
+     <<    									=>    	.push
+
+some_variable.nil? - перевірка на None
+
+iterator.each { |x| puts "text" if x.nil? }
+
+	.each			-	НЕ міняє об'єкт, що повертається
+	.map/collect	-	міняє об'єкт, що повертається
+	.select			-	повертає true елементи
+	.reject			-	повертає false елементи
+	.reduce			-	наколює результат
+	.tap			-	повертає значення всього об'єкта
+
+block - ананонімна (лямбда) функція
+
+            |        args            |    	return
+----------------------------------------------------------
+proc        |   doesn't check    	 |	no
+lambda      | 	check            	 |	yes
+
+require_relative "some_file"
+
+module SomeContainer
+  module NestedContainer
+  end
+end
+include SomeContainer :: NestedContainer
+
+"some string - #{variable}"    				- 		вставка змінної в рядок
+ 
+begin
+rescue Errno::ENOEN    						- 		можна використати без begin
+end
+
+iterator do |item|
+end
+
+
+
+                      									OOP
+
+
+class Class < ParentClass
+end
+
+instance = Class.new         				=>		def initialize()
+
+def price
+  @price                       				=>    	attr_reader :price
+end
+                                                                               	=>    	attr_accessor :price
+def price=(_price)
+  @price = _price        					=>    	attr_writer :price
+end
+
+def self.method    							-   	метод класу (@classmethod)
+@variable 									- 		зміна інстансу
+@@variable 									- 		змінна классу
+
+class << self
+  attr_accessor :var   						- 		доступ до змінної інстансу класу через @var
+end

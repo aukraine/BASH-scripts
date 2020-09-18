@@ -97,7 +97,7 @@ chmod  o=rw   myfile.txt   – установить RW всем остальны
 chmod  777   myfile.txt   – установить RWX всем
 chmod  741   myfile.txt  – установить:   RWX   владельцу, R - -    группе,  - - X   всем остальным
 chmod  1777 myDir   – включить StickyBit
-chmod 0777 myDir   – выключить StickyBit
+chmod  0777 myDir   – выключить StickyBit
 
 ifconfig          – показать мой IP адресс
 ip addr show  – показать мой IP адресс

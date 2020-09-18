@@ -21,6 +21,8 @@ git push origin --delete <branch_name>  - удалить бранч на рем�
 git config --global user.name "Andrii Ukrainets"
 git config --global user.email "andre.ukrainets@gmail.com"
 
+git branch <branch_name> -u origin/<new_remote> - перепідвязати бранчу на ремоуті до іншої
+
 
 GitHub Actions:
 

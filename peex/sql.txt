@@ -1,0 +1,12 @@
+DATABASE SQL
+
+ER - entity-relation diadran (реляційні бази)
+
+- концептуальний рівень
+- логічний
+- фізичний
+
+DDL - Data Definition language 		CREATE,  ALTER,   DROP
+DML - Data Manipulation Language 	SELECT,  INSERT,  UPDATE,    DELETE,  MERGE
+DCL - Data Control Language			GRANT,   REVOKE,  DENY
+TCL - Transaction Control Language	BEGIN,   COMMIT,  ROLLBACK,  SAVE

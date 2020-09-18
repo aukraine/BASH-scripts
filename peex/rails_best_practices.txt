@@ -1,0 +1,93 @@
+RAILS BEST PRACTICES	https://habr.com/ru/sandbox/54291/
+
+	Контроллеры
+		Толстая модель, худенький контроллер		постарайтеся зайвий код і логіку перенести в метод всередині моделі. 
+													Не перевантажуйте контролер. Не робіть модель дуже товстою
+													
+		Расширяем возможности						використовуйте scope для створення запитів
+													scope :trending, lambda { |num = nil| where('started_tranding > ?', 1.day.ago).order('mentions desc').limit(num) }
+													
+													Думайте до якої моделі відносяться Ваші дії і намагайтеся оріентіроватся саме на неї
+													#create instead #new + #save
+													
+		Занимательные фильтры/actions				Використовуйте глобальні фільтри
+													before_filter :auth, :only => [:edit, :update, :destroy], :except => [:index, :create]
+													
+		Команды контроллеров, контроллеры команд	Не забувайте про accepts_nested_attributes_for, 
+													це дозволить Вам не засмічувати Ваш контролер зайвими змінними
+													accepts_nested_attributes_for :account_setting
+													
+		Модели без баз данных						іноді можна створювати додаткові моделі, що б не засмічувати контролер
+													@contact_form.valid?  =>  ActiveModel::Validations  =>   ActiveModel::Conversion
+													
+		Presenters									Використовуйте Presenter щоб почистити контролер і винести потрібні методи окремо. 
+													Не забувайте про ActiveSupport :: Memoizable, це допоможе Вам позбавиться від зайвих об'єктів
+													@presenter = Tweets::IndexPresenter.new(current_user)  =>  memoize :recent_tweet, :followers_tweets
+													
+		Ответчики									Пам'ятайте що respond_to можна прописати в самому верху respond_to :html, :xml, :json, 
+													і позбудеться від дивних блоків всередині кожного методу, якщо вам не потрібні ніякі додаткові настройки
+		
+		Используйте диапазоны						код виглядає простіше і зрозуміліше якщо використовувати ranges
+													Tweet.where(:created_at => (params[:start_date].to_date)..(params[:end_date].to_date))
+		
+													Не використовуйте занадто багато рівнів поглиблення - це вже погано. 
+													Адреса /users/1/posts/2/comments/3 - не найприємніше що хотілося б бачити
+													
+													Бійтеся SQL ін'єкцій. 
+													Ніколи не робіть ось так User.where("name = #{params[:name]}")!
+	
+	
+	Модели
+		Сид											Коли наступного разу будете сідувати базу даних, забудьте про delete_all, так як це може зіпсувати асоціації
+													Topic.find_or_initialize_by_name(attributes[:name]).tap
+													
+		Не шутите с n+1								пріглянітесь до методу includes, він заощадить кількість запитів до бази даних
+													self.followers.recent.INCLUDES(:user).collect{ |f| f.user.name }
+													
+		Не разговаривай с незнакомцами				Не дозволяйте Вашим моделям розмовляти з незнайомцями. Кожна модель повинна знати тільки про найближчих сусідів
+													Краще делегуйте метод location_on_tweets користувачеві. Зробити це легко, в моделі User
+													Tweet <-> User <-> Account Settings  =>  delegate :location_on_tweets
+													
+		Не забувайте про приємні url				адреса виду /post/2243-rails-best-practices виглядає значно зрозуміліша адреси /post/2243
+													def to_param; "#{id}-#{name.parametrize}" end
+													
+													Спрощуйте де можна спростити. Код <% if user.email.blank %> можна переписати як <% unless user.email? %> 
+													І простіше, і зрозуміліше.
+													
+	
+	Вьюхи
+		Никаких запросов внутри вьюх				Не створюйте запитів всередині вьюха
+													current_user.who_to_follow.limit(5).each  =>  @who_to_follow.each
+													
+		Хелперы										Використовуйте хелпери що-б спростити собі життя
+													<%= follow_box("Followers", @followers_count, @recent_followers) %>
+													
+		Не забывайте о Partials						не використовуйте в них змінні екземпляра. Це робиться легко, створивши нові змінні
+													<%= rernder 'trending', :area => @user.trending_area, :topics => @trending %>
+													
+		Проблемы с пустыми стрингами				Перевіряйте наявність методом presence. він видасть Вам nil, замість порожнього стринга і все буде добре.
+													<%= @user.city || "Unknown" %>  =>  <%= @user.city.presence || "Unknown" %>
+													
+		Вложенные макеты							Використовуйте вкладені лейаути. Робиться це просто, всього трьома змінами. 
+													У application.html.erb пишемо <% = yield: sidebar%>, 
+													в tweets_controller.rb додаємо layout 'with_sidebar' 
+													і все що нам залишається - створити той самий 'with_sidebar'
+													
+		Мета информация								Прописуйте мета інформацію правильно
+													<%= yield(:description) || "The best way ..." %>
+	
+	
+	Базы данных													
+		Використовуйте коллбеки						before_save, after_update, around_destroy, ...
+		
+		Не забувайте про date хелперах				1.minute, beginning_of_day, next_week, end_of_year, 2.weeks.prev, ...
+		
+		Індексація									Якщо у Вас є Важливі запити, краще створити для них додаткову індексацію за кількома параметрами
+													add_index: tweets, [: user_id,: created_at]
+
+		Не забывайте о Proc							after_create :queue_new_follower_email,
+               											:if => Proc.new {|f| f.followed_user.receive_emails? }
+													
+													Для великих баз даних, замість методу all.each, доцільніше використовувати find_each, 
+													так як за замовчуванням він вихоплює пакети в 1000 записів за раз
+													Tweet.find_each(:batch_size => 200)

@@ -1,0 +1,885 @@
+Russ Olsen — Design Patterns in Ruby
+https://medium.com/@kopilov.vlad/цикл-статей-паттерны-ооп-в-ruby-46666b260303
+https://medium.com/@kopilov.vlad/цикл-статей-паттерны-ооп-в-ruby-часть-2-8b51e05f3fc8
+
+
+Шаблонний метод		-	дозволяє перекласти реалізацію алгоритму маніпулювання даними з класу-батька, на класи нащадки
+Стратегія			-	помістити алгоритми/логіку в окремі об'єкти
+Спостерігач			-	створює механізм підписки одних об'єктів на зміну станів інших об'єктів
+Композиція			-	вирішує завдання маніпулюванням вкладеними об'єктами як одним об'єктом
+Команда				-	перетворює операцію в самостійний об'єкт
+Адаптер				-	забезпечує спільну роботу класів з несумісним інтерфейсом шляхом додавання логіки, якої бракує
+Проксі				-	обертає собою інший об'єкт (не змінюючи його інтерфейс), прикидаючись "оригінальний" об'єктом
+Декоратор			-	призначений для динамічного підключення додаткового поведінки об'єкта
+Singleton/Одиночка	-	гарантує що у класу буде тільки один екземпляр
+Фабрика				-	визначає інтерфейс для створення об'єктів в класі-батька
+Будівельник			-	завдання полягає в створенні/виробництві інших примірників класів
+Фасад				-	надає собою простий інтерфейс до складної системи класів, бібліотеці або фреймворку
+Стан				-	дозволяє змінювати поведінку об'єкта в залежності від його стану
+Ланцюжок обов'язків	-	є реалізацією послідовної ланцюжка оброблювачів для будь-якого події/повідомлення
+Відвідувач			-	реалізувує простий інтерфейс, що дозволяє проводити безліч дій над різними об'єктами
+Сервіс				-	нав'язує структуру писати окремий об'єкт для опису кожної бізнес-логіки
+
+
+
+Шаблонний метод
+	
+	Даний шаблон дозволяє перекласти реалізацію алгоритму маніпулювання даними з класу-батька, на класи нащадки, які створені для кожного конкретного випадку. 
+	Не змінюючи при цьому вхідні дані і не переписуючи публічні методи.
+	
+			class AbstractReport
+			  def create_report
+			    main_template
+			  end
+
+			  private
+
+			  def main_template
+			    raise 'Called abstract method: main_template'
+			  end
+			end
+
+			class TextReport < AbstractReport
+			  def main_template
+			    ['Text Report.', 'Report title: %report_title%', 'Items are:', '%items_placeholder%'].join("\n")
+			  end
+			end
+
+			class JSONReport < AbstractReport
+			  def main_template
+			    "{\"type\":\"JSON Report\",\"title\":\"%report_title%\",\"items\":[%items_placeholder%]}"
+			  end
+			end
+
+			class HTMLReport < AbstractReport;
+			  def main_template
+			    ['<!DOCTYPE html>','<html>',' <body>','  <div>','    %items_placeholder%','  </div>',' </body>','</html>'].join("\n")
+			  end
+			end
+
+
+Стратегія
+
+	Даний патерн застосовується в разі якщо вхідні дані/уявлення/висновок даних - одні й ті ж; логіка обробки даних перед віддачею в уявлення - різний.
+	Короткий зміст патерну - помістити алгоритми/логіку в окремі об'єкти.
+	
+			class TextMessage
+			  attr_accessor :encryptor
+			  attr_reader :original_message
+
+			  def initialize(original_message, encryptor)
+			    @original_message = original_message
+			    @encryptor = encryptor
+			  end
+			  def encrypt_me
+			    encryptor.encrypt(self)
+			  end
+			end
+
+			class SimpleEncryptor
+			  def encrypt(context)
+			    context.original_message.tr(ALPHABET, ENCODING)
+			  end
+			end
+
+			class Base64Encryptor
+			  def encrypt(context)
+			    Base64.encode64(context.original_message)
+			  end
+			end
+
+			class AESEncryptor
+			  KEY = 'dsfi434n534df0v0bn23324dfgdfgdf4353454'
+			  def encrypt(context)
+			    AES.encrypt(context.original_message, KEY)
+			  end
+			end
+	
+
+Спостерігач
+	
+	Даний патерн створює механізм передплати одних об'єктів на зміну станів інших об'єктів.
+	Уявімо книжковий магазин. Потрібно реалізувати функціонал підписування на оповіщення про стан книг.
+	
+			module Subject
+			  def initialize
+			    @observers = []
+			  end
+
+			  def notify_observers(event_type)
+			    selected_observers = @observers.select do |observer|
+			      observer[:event_type] == event_type
+			    end
+			    selected_observers.each do |observer|
+			      observer[:observer].update(self)
+			    end
+			  end
+			end
+
+			class Customer
+			  attr_reader :name
+
+			  def initialize(name)
+			    @name = name
+			  end
+
+			  def update(changed_book)
+			    puts "#{self.class} #{name}: Yeah, I can buy a book '#{changed_book.title}'"
+			  end
+			end
+
+			class Storekeeper
+			  attr_reader :name
+
+			  def initialize(name)
+			    @name = name
+			  end
+
+			  def update(changed_book)
+			    puts "#{self.class} #{name}: Oh, I need to purchase books '#{changed_book.title}'"
+			  end
+			end
+
+			class Book
+			  include Subject
+			  attr_reader :title, :description, :price, :count
+
+			  def initialize(title, description, price, count)
+			    super()
+			    @title = title
+			    @description = description
+			    @price = price
+			    @count = count
+			  end
+			end
+			
+
+Композиція
+
+	Даний патерн вирішує завдання маніпулюванням вкладеними об'єктами як одним об'єктом.
+	Порахувати скільки важать папки з файлами і іншими папками в сумі.
+	
+			class AbstractLeaf
+			  def initialize; end
+			  def size
+			    raise 'Called abstract method: size'
+			  end
+			end
+
+			class AbstractComposite
+			  attr_reader :subgroup
+			  def initialize(args = {})
+			    @subgroup = []
+			    post_initialize(args)
+			  end
+
+			  def add(child)
+			    subgroup.push(child)
+			    self
+			  end
+
+			  def remove(child)
+			    subgroup.remove(child)
+			    self
+			  end
+
+			  def size
+			    subgroup.map { |item| item.size }.reduce(:+) || 0
+			  end
+
+			  # subclasses may override
+			  def post_initialize(args={})
+			    nil
+			  end
+			end
+
+			class FileItem < AbstractLeaf
+			  attr_reader :size, :title
+			  def initialize(args = {})
+			    @size = args[:size]
+			    @title = args[:title]
+			  end
+			end
+
+			class Folder < AbstractComposite
+			  attr_reader :title
+			  def post_initialize(args={})
+			    @title = args[:title]
+			  end
+			end
+	
+
+Команда
+	
+	Є якийсь об'єкт з яким виробляються маніпуляції. Потрібно надати функціонал ставити дії по маніпуляції в чергу, Залогуватися їх або відкочувати.
+	У таких випадках корисний патерн Команда так як він перетворює операцію в самостійний об'єкт.
+			
+			class Employee
+			  attr_accessor :name, :number, :address
+
+			  def initialize(args = {})
+			    @name = args[:name]
+			    @number = args[:number]
+			    @address = args[:address]
+			  end
+			end
+
+			class EmployeeJournal
+			  include Singleton
+			  attr_reader :employees
+
+			  def initialize
+			    @employees = {}
+			  end
+
+			  def add_employee(e)
+			    @employees[e.number] = e
+			  end
+			end
+
+			class AbstractCommand
+			  attr_reader :system
+
+			  def initialize(args = {}, system = EmployeeJournal.instance)
+			    @system = system
+			    post_initialize(args)
+			  end
+
+			  private
+
+			  # children may overwrite it
+			  def post_initialize(args = {})
+			    nil
+			  end
+			end
+
+			class AddEmployee < AbstractCommand
+			  attr_reader :employee
+
+			  def execute
+			    system.add_employee(employee)
+			  end
+
+			  def unexecute
+			    system.delete_employee(employee.number)
+			  end
+
+			  private
+
+			  def post_initialize(args = {})
+			    @employee = args[:employee]
+			  end
+			end
+			
+
+Адаптер
+	
+	Даний патерн забезпечує спільну роботу класів з несумісним інтерфейсом шляхом додавання логіки, якої бракує
+	
+
+			module TagCreator
+			  def self.render(tag_object)
+			    return '' if tag_object.nil?
+			    return tag_object if tag_object.is_a?(::String) or tag_object.is_a?(::Integer)
+
+			    str = "<#{tag_object.tag_name}>"
+			    str += TagCreator.render(tag_object.content)
+			    str += "</#{tag_object.tag_name}>"
+			    str
+			  end
+			end
+
+			class Tag
+			  attr_reader :tag_name, :content
+			  def initialize(tag_name, content)
+			    @tag_name = tag_name
+			    @content = content
+			  end
+			end
+
+			class DivTag
+			  attr_reader :content
+			  def initialize(content)
+			    @content = content
+			  end
+			end
+
+			class DivTagAdapter
+			  attr_reader :div_tag
+			  def initialize(div_tag)
+			    @div_tag = div_tag
+			  end
+
+			  def tag_name
+			    'div'
+			  end
+
+			  def content
+			    div_tag.content
+			  end
+			end
+
+
+Проксі/Декоратор
+
+	Даний патерн обертає собою інший об'єкт (не змінюючи його інтерфейс), прикидаючись "оригінальний" об'єктом. 
+	Перехоплюючи всі виклики до нього, реалізує додаткову приховану логіку.
+	Проксі може використовуватися для логування запитів до об'єкта; для кешування даних; для перевірки доступу до об'єкта та інших завдань.
+	
+			class Comment < ApplicationRecord
+			end
+			
+			class CommentAntiSpamProxy
+			  attr_accessor :real_comment
+			  def initialize(real_comment)
+			    @real_comment = real_comment
+			  end
+
+			  def method_missing(name, *args)
+			    answer = real_comment.send(name, *args)
+			    check_spam if need_to_check_spam?(name, answer)
+			    answer
+			  end
+
+			  private
+
+			  def need_to_check_spam?(name, answer)
+			    answer == true and (['save', 'update_attributes'].include?(name.to_s))
+			  end
+
+			  def check_spam
+			    return unless SpamFilter.is_spam?(real_comment.message)
+			    real_comment.update_attrubutes(spam: true)
+			  end
+			end
+
+			class CommentsController < ApplicationController
+			  def create
+			    @comment = CommentAntiSpamProxy.new(Comment.new(comment_params))
+			    if @comment.save
+			      render json: @comment, status: :ok
+			    else
+			      render json: @comment.errors, status: :unprocessable_entity
+			    end
+			  end
+			end
+			
+
+Декоратор
+	
+	Даний патерн призначений для динамічного підключення додаткового поведінки об'єкта.
+	Декоратор надає гнучку альтернативу практиці створення підкласів з метою розширення функціональності.
+	
+			class Robot
+			  attr_reader :model_name, :id, :release_date
+			  def initialize(model_name:, id:, release_date:)
+			    @model_name = model_name
+			    @id = id
+			    @release_date = release_date
+			  end
+			end
+
+			class RobotFirstDecorator < SimpleDelegator
+			  def age
+			    ((Time.now - release_date) / 31557600).floor
+			  end
+			end
+
+			class RobotSecondDecorator < SimpleDelegator
+			  def full_name
+			    "#{id} => #{model_name}"
+			  end
+			end
+
+
+Singleton/Одиночка
+
+	Даний патерн гарантує що у класу буде тільки один екземпляр. 
+	Найчастіше це корисно для доступу до якогось спільного ресурсу, наприклад, бази даних
+	
+			class Database
+			  @@instance = Database.new
+
+			  def self.instance
+			    return @@instance
+			  end
+
+			  private_class_method :new
+			end
+
+
+Фабрика
+	
+	Даний патерн визначає інтерфейс для створення об'єктів в класі-батька. 
+	Успадковані від нього класи змінюють тип створюваних об'єктів, кожен під конкретну ситуацію. 
+	Грубо кажучи, кожен "спадкоємець" відповідає на одне питання "Який клас використовувати?".
+	
+	Даний патерн застосовується коли заздалегідь невідомі типи і залежності об'єктів, з якими повинен працювати ваш код.
+	Також цей патерн хороший для того щоб закласти функціонал розширення в якусь бібліотеку. 
+	Щоб надати іншим розробника можливість створювати нові класи замість стандартних.
+	
+			class AbstractLogging
+			  attr_reader :log_string
+			  def initialize(log_string)
+			    @log_string = log_string
+			  end
+
+			  def action
+			    new_log_object.sending
+			  end
+
+			  private
+
+			  def new_log_object()
+			    raise 'not implemented error'
+			  end
+			end
+
+			class EmailLogging < AbstractLogging
+			  private
+
+			  def new_log_object()
+			    EmailLogger.new(@log_string)
+			  end
+			end
+
+			class StorageLogging < AbstractLogging
+			  private
+
+			  def new_log_object()
+			    StorageLogger.new(@log_string)
+			  end
+			end
+
+
+Будівельник
+
+	Завдання даного патерну полягає в створенні/виробництві інших примірників класів.
+	До нього звертаються якщо у створюваного об'єкта є складні зв'язки з іншими об'єктами, особливі умови для валідації, 
+	і/або ми повинні їх абстрагувати з точки зору інтерфейсу.
+	
+			class Tag
+			  attr_reader :title
+
+			  include JSONable
+			  def initialize(title)
+			    @title = title
+			  end
+
+			  def as_json(options={})
+			    { title: title }
+			  end
+			end
+
+
+			class Article
+			  attr_accessor :title, :description, :tags
+
+			  include JSONable
+			  def initialize(title, description)
+			    @title = title
+			    @description = description
+			    @tags = []
+			  end
+
+			  def save
+			    puts 'we have done it!!!'
+			  end
+
+			  def as_json(options={})
+			    {
+			      title: title,
+			      description: description,
+			      tags: tags
+			    }
+			  end
+			end
+
+			class BuilderError
+			  attr_reader :field, :msg
+			  include JSONable
+
+			  def initialize(field, msg)
+			    @field = field
+			    @msg = msg
+			  end
+
+			  def as_json(options={})
+			    {
+			      field: field,
+			      msg: msg
+			    }
+			  end
+			end
+
+			# make Article only through ArticleBuilder
+			class ArticleBuilder
+			  attr_reader :errors, :article
+
+			  def initialize(title = '', description = '')
+			    @article = Article.new(title, description)
+			    @errors = []
+			    @tags = []
+			  end
+
+			  def valid?
+			    clear_errors!
+			    valid_title!
+			    valid_description!
+			    valid_tags!
+			    errors.size == 0
+			  end
+
+			  def add_description(val)
+			    @article.description = val
+			  end
+
+			  def add_tag(val)
+			    @tags << val
+			  end
+
+			  def add_title(val)
+			    @article.title = val
+			  end
+
+			  def save
+			    return false unless valid?
+			    @tags.each do |tag_string|
+			      @article.tags << Tag.new(tag_string)
+			    end
+			    @article.save
+			    true
+			  end
+
+			  private
+
+			  def clear_errors!
+			    @errors = []
+			  end
+
+			  def valid_title!
+			    if @article.title.nil? or !@article.title.is_a?(String) or @article.title.size == 0
+			      @errors.push(BuilderError.new(:title, 'Обязательно заполните title'))
+			    end
+			  end
+
+			  def valid_description!
+			    if @article.description.nil? or !@article.description.is_a?(String) or @article.description.size == 0
+			      @errors.push(BuilderError.new(:description, 'Обязательно заполните description'))
+			    end
+			  end
+
+			  def valid_tags!
+			    check_tags_size and check_tags_content
+			  end
+
+			  def check_tags_size
+			    if @tags.size == 0 or @tags.size > 3
+			      @errors.push(BuilderError.new(:tags, 'Количество тего должно быть от 1 до 3'))
+			      return false
+			    end
+			    true
+			  end
+
+			  def check_tags_content
+			    @tags.each do |tag_string|
+			      unless tag_string.is_a?(String)
+			        @errors.push(BuilderError.new(:tags, 'Тег должен быть строкой'))
+			        return false
+			      end
+			      if tag_string.nil? or tag_string.size == 0
+			        @errors.push(BuilderError.new(:tags, 'Обязательно заполните заголовки для всех тегов'))
+			        return false
+			      end
+			    end
+			    true
+			  end
+			end
+			
+
+Фасад
+	
+	патерн проектування, який надає собою простий інтерфейс до складної системи класів, бібліотеці або фреймворку. 
+	Використовуйте його якщо у вас є кілька класів і вам потрібно написати для них оболонку з обмеженим інтерфейсом.
+	
+			module RubyXLS
+			end
+
+			# class that consis information about user
+			class User
+			end
+
+			# Module provides for the encoding and decoding of binary data using a Base64 representation.
+			module Base64
+			end
+
+			# class-facade
+			# if some of libraries will be changed we need only change class-facade
+			class XlsGenerator
+			  def self.generate
+			    workbook = RubyXLS::Workbook.new
+			    worksheet = workbook[0]
+
+			    worksheet.add_header(
+			      ['ID', 'Full name', 'Active?', 'Activate Date']
+			    )
+
+			    User.all.each do |user|
+			      worksheet.add_row(
+			        [user.id, user_full_name. user.active?, user.activate_date]
+			      )
+			    end
+
+			    content = workbook.stream.string
+			    Base64.strict_encode64(content)
+			  end
+			end
+
+			# email-sender
+			class ReportSender
+			  def self.send(email)
+			    report = XlsGenerator.generate
+			    MainMailer.send(
+			      to: 'email'
+			      attach: report
+			    )
+			  end
+			end
+
+
+Стан
+
+	Даний патерн дозволяє змінювати поведінку об'єкта в залежності від його стану.
+	
+			class AbstractState
+			  def initialize(content)
+			    @content = content
+			  end
+
+			  def status
+			    raise 'does not implement error'
+			  end
+
+			  def publish
+			    raise 'does not implement error'
+			  end
+
+			  def go_back
+			    raise 'does not implement error'
+			  end
+
+			  def render
+			    raise 'does not implement error'
+			  end
+			end
+
+			class Document
+			  attr_accessor :content
+			  def initialize(content)
+			    @content = content
+			    @state = DraftState.new(self)
+			  end
+
+			  def status
+			    @state.status
+			  end
+
+			  def publish
+			    @state.publish
+			  end
+
+			  def render
+			    @state.render
+			  end
+
+			  def change_state(state)
+			    @state = state
+			  end
+			end
+
+			class DraftState < AbstractState
+			  def publish
+			    @content.change_state(ModerateState.new(@content))
+			  end
+
+			  def status
+			    :draft
+			  end
+
+			  def render
+			    ''
+			  end
+
+			  def go_back
+			    self
+			  end
+			end
+			
+
+Ланцюжок обов'язків
+
+	Даний патерн є реалізацією послідовної ланцюжка оброблювачів для будь-якого події/повідомлення. 
+	Кожен оброблювачів вирішує одну задачу: обробити запит самостійно або передати його далі по ланцюжку
+	
+			class LogHandler
+			  attr_reader :successor
+			  
+			  def accept(log_item)
+			    raise '#accept_request method must be implemented.'
+			  end
+			end
+
+			class StandartLogHandler < LogHandler
+			  def accept(log_item)
+
+			    if log_item[:http_status] =~ /^2\d\d$/
+			      puts 'StandartLogHandler\'s accept'
+			      save_to_file(log_item, 'production.log')
+			      return true
+			    else
+			      return false
+			    end
+			  end
+			end
+
+			class PayLogHandler < LogHandler
+			  def accept(log_item)
+			    if valid_item?(log_item)
+			      puts 'PayLogHandler\'s accept'
+			      save_to_file(log_item, 'production_payments.log')
+			      return true
+			    else
+			      return false
+			    end
+			  end
+
+			  private
+
+			  def valid_item?(log_item)
+			    (log_item[:http_status] =~ /^2\d\d$/ &&
+			      log_item[:http_method]=='POST' &&
+			      log_item[:processing][:by]=='PayController#create')
+			  end
+			end
+
+
+			chain_of_responsibility = ServerErrorLogHandler.new(
+			  ClientErrorLogHandler.new(
+			    PayLogHandler.new(
+			      StandartLogHandler.new
+			    )
+			  )
+			)
+
+
+Відвідувач
+
+	Даний патерн хороший, якщо вам потрібно реалізувати простий інтерфейс дозволяє проводити безліч дій над різними об'єктами.
+	
+			odule Visitable
+			  def accept(visitor)
+			    raise 'does not implement error'
+			  end
+			end
+
+			# class that accept any visitor
+			class User < ApplicationRecord
+			  include Visitable
+
+			  # some code
+
+			  def accept(visitor)
+			    visitor.visit_user(self)
+			  end
+			end
+
+			# main class for any visitors
+			class AbstractVisitor
+			  def visit_user(user)
+			    raise 'does not implement error'
+			  end
+
+			  def visit_order(order)
+			    raise 'does not implement error'
+			  end
+
+			  # here we can add some method for any classes
+			end
+
+
+			class XMLExportVisitor < AbstractVisitor
+			  def visit_user(user)
+			    # export logic user to XML is here
+			  end
+
+			  def visit_order(order)
+			    # export logic order to XML is here
+			  end
+			end
+
+			class JSONExportVisitor < AbstractVisitor
+			  def visit_user(user)
+			    # export logic user to JSON is here
+			  end
+
+			  def visit_order(order)
+			    # export logic order to JSON is here
+			  end
+			end
+
+
+
+			# and controller in rails-app
+			module Api
+			  module Users
+			    class ExportsController < ApplicationController
+			      before_action :find_user
+
+			      def xml_export
+			        @report = @user.accept(XMLExportVisitor.new)
+			      end
+
+			      def json_export
+			        @report = @user.accept(JSONExportVisitor.new)
+			      end
+
+			      private
+
+			      def find_user
+			        @user = User.find(params[:id])
+			      end
+			    end
+			  end
+			end
+			
+
+Сервіс
+
+	Даний патерн нав'язує структуру писати окремий об'єкт для опису кожної бізнес-логіки. 
+	В ідеалі, цей об'єкт має тільки один публічний метод в якому послідовно викликаються всі приватні.
+	
+			class ForgottenPasswordService
+			  def initialize(user_email)
+			    @user_email = user_email
+			    @user = nil
+			  end
+
+			  def perform
+			    find_user && generate_token && send_email
+			  end
+
+			  private
+
+			    def find_user
+			      @user = User.find_by(email: @user_email)
+			      @user.present?
+			    end
+
+			    def generate_token
+			      @user.update_attributes(token: TokenGenerator.generate)
+			    end
+
+			    def send_email
+			      UserMailer.password_reset(@user.email, @user.token)
+			    end
+			end

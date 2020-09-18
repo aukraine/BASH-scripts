@@ -1,0 +1,68 @@
+# Отображение скрытых файлов и папок в Finder
+defaults write com.apple.finder AppleShowAllFiles -bool TRUE && killall Finder
+defaults write com.apple.finder AppleShowAllFiles -bool FALSE && killall Finder
+
+# Скрытие файлов и папок
+chflags hidden ~/Desktop/Секретная папка
+chflags nohidden ~/Desktop/Секретная папка
+
+# Копирование текста в «Просмотре»
+defaults write com.apple.finder QLEnableTextSelection -bool TRUE && killall Finder
+defaults write com.apple.finder QLEnableTextSelection -bool FALSE && killall Finder
+
+# Создание файла любого размера
+mkfile 1g test.abc
+
+# Просмотр всех активных процессов
+top
+
+# Отключение тени на скриншотах
+defaults write com.apple.screencapture disable-shadow -bool TRUE && killall SystemUIServer
+defaults write com.apple.screencapture disable-shadow -bool FALSE && killall SystemUIServer
+
+# Смена формата скриншотов
+defaults write com.apple.screencapture type JPG && killall SystemUIServer
+defaults write com.apple.screencapture type PNG && killall SystemUIServer
+
+# Изменение места сохранения скриншотов
+defaults write com.apple.screencapture location ~/Desktop/Screenshots && killall SystemUIServer
+defaults write com.apple.screencapture location ~/Desktop && killall SystemUIServer
+
+# Ускорение анимации дока
+defaults write com.apple.dock autohide-time-modifier -float 0.5 && killall Dock
+defaults write com.apple.dock autohide-time-modifier -float 0.7 && killall Dock
+
+# Добавление разделителя в док
+defaults write com.apple.dock persistent-apps -array-add '{"tile-type"="spacer-tile";}' && killall Dock
+
+# Сообщение на экране блокировки
+sudo defaults write /Library/Preferences/com.apple.loginwindow LoginwindowText "Ваше сообщение"
+sudo defaults delete /Library/Preferences/com.apple.loginwindow
+
+# Проговаривание текста
+say "Привет, Лайфхакер!"
+say -f ~/Documents/сказка.txt
+
+# Просмотр календаря
+cal 2018
+
+# Освобождение оперативной памяти
+purge
+
+# Проверка времени работы Mac
+uptime
+
+# Запрет на переход в режим сна
+caffeinate
+
+# Стресс-тест Mac
+yes > /dev/null && yes > /dev/null && yes > /dev/null && yes /dev/null &&
+killall yes
+
+# Мгновенная перезагрузка или выключение
+sudo shutdown -h now
+sudo shutdown -r now
+
+# Автоматическая перезагрузка при зависании
+sudo systemsetup -setrestartfreeze on
+sudo systemsetup -setrestartfreeze off
