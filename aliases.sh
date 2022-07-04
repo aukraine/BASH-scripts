@@ -83,7 +83,7 @@ alias cls="echo '\x1b[30;46m cls = CLear Screen \x1b[0m ' && clear"
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-# Teladoc
+# TD (second project)
 # alias bxrp="echo '\x1b[30;46m bxrp = Bundle eXec Rake Parallel:setup \x1b[0m                   ' && bundle exec rake parallel:setup"
 # alias bxrsa="echo '\x1b[30;46m bxrsa = Bundle eXec Rails Server -p 3100 [admin] \x1b[0m        ' && bundle exec rails s -p 3100"
 # alias bxrsc="echo '\x1b[30;46m bxrsc = Bundle eXec Rails Server -p 3300 [client] \x1b[0m       ' && bundle exec rails s -p 3300"
@@ -96,7 +96,7 @@ alias cls="echo '\x1b[30;46m cls = CLear Screen \x1b[0m ' && clear"
 # alias bxrst="echo '\x1b[30;46m bxrst = MOCK_AUTH_NET=1 ENABLE_REMOTE_CRUD=1 Bundle eXec Rails Server -p 3030 [TAS] \x1b[0m' && MOCK_AUTH_NET=1 ENABLE_REMOTE_CRUD=1 bundle exec rails s -p 3030"
 # alias bxc="echo '\x1b[30;46m bxc = TEST_ENV=local MY_ENV=env MY_SSL=http CCUMBER_DEBUG=1 CUCUMBER_BROWSER=chrome Bundle eXec Cucumber \x1b[0m' && TEST_ENV=local MY_ENV=env MY_SSL=http CCUMBER_DEBUG=1 CUCUMBER_BROWSER=chrome bundle exec cucumber"
 
-# LinkSquares
+# LS (third project)
 alias bm="echo '\x1b[30;46m bm = Bin/M \x1b[0m                                      	   ' && bin/m"
 alias bmb="echo '\x1b[30;46m bmb = Bin/M Bundle \x1b[0m                             	   ' && bin/m bundle"
 alias bmbi="echo '\x1b[30;46m bmbi = Bin/M Bundle Install \x1b[0m                   	   ' && bin/m bundle install"
